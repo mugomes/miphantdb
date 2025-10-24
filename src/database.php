@@ -33,6 +33,7 @@ class database
     {
         try {
             $this->sSandbox = $sandbox;
+            $this->sPrefix = $db['prefix'];
             $this->sConecta = mysqli_connect($db['server'], $db['username'], $db['password'], $db['database']);
             if (mysqli_connect_errno()) {
                 throw new \Exception(mysqli_connect_error());
@@ -48,17 +49,18 @@ class database
         return mysqli_multi_query($this->sConecta, $sql);
     }
 
-    public function table(string $nome)
+    public function table(string $name)
     {
-        $this->sTabelas[] = $this->sPrefix . $nome;
+        $this->sTabelas[] = $this->sPrefix . $name;
+        return $this;
     }
 
-    public function where(string $nome, string $valor = '?')
+    public function where(string $name, string $value = '?')
     {
         $txtAspas = "'";
         $txtIgual = '=';
 
-        if ($this->sSemAspas || is_int($valor) | $valor == '?') {
+        if ($this->sSemAspas || is_int($value) | $value == '?') {
             $txtAspas = '';
         }
 
@@ -67,9 +69,9 @@ class database
         }
 
         if (empty($this->sWhere)) {
-            $this->sWhere[] = $nome . $txtIgual . $txtAspas . $valor . $txtAspas;
+            $this->sWhere[] = $name . $txtIgual . $txtAspas . $value . $txtAspas;
         } else {
-            $this->sWhere[] = $this->sAndOr . $nome . $txtIgual . $txtAspas . $valor . $txtAspas;
+            $this->sWhere[] = $this->sAndOr . $name . $txtIgual . $txtAspas . $value . $txtAspas;
         }
 
         $this->sAndOr = ' AND ';
@@ -121,9 +123,9 @@ class database
         return $this;
     }
 
-    public function orderby(string $nome, bool $crescente = true)
+    public function orderby(string $name, bool $crescent = true)
     {
-        $this->sOrderBy[] = ($crescente) ? "$nome ASC" : "$nome DESC";
+        $this->sOrderBy[] = ($crescent) ? "$name ASC" : "$name DESC";
         return $this;
     }
 
@@ -133,9 +135,9 @@ class database
         return $this;
     }
 
-    public function prepared(string $valor, string $tipo = 's')
+    public function prepared(string $value, string $type = 's')
     {
-        $this->sPreparado[] = [$tipo, $valor];
+        $this->sPreparado[] = [$type, $value];
         return $this;
     }
 
