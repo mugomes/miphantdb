@@ -1,5 +1,8 @@
 # folders
+logs/
 vendor/
 
 # files
 composer.lock
+index.php
+error.log
