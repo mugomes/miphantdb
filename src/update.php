@@ -10,9 +10,9 @@ class update extends database
 {
     private array $sUpdate = [];
 
-    public function add(string $nome, string $valor = '?')
+    public function add(string $name, string $value = '?')
     {
-        $this->sUpdate[] = ['coluna' => $nome, 'valor' => $valor];
+        $this->sUpdate[] = ['coluna' => $name, 'valor' => $value];
         return $this;
     }
 
