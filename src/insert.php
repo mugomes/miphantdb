@@ -10,11 +10,11 @@ class insert extends database
 {
     private array $sInsert = [];
 
-    public function add(string $nome, string $valor = '?')
+    public function add(string $name, string $value = '?')
     {
         $this->sInsert[] = [
-            'coluna' => $nome,
-            'valor' => $valor
+            'coluna' => $name,
+            'valor' => $value
         ];
         return $this;
     }
@@ -27,9 +27,9 @@ class insert extends database
 
             foreach ($this->sInsert as $row) {
                 $colunas .= $row['coluna'];
-                $colunas .= (empty($this->sPreparado)) ? sprintf("'%s',", $row['valor']) : sprintf('%s,', $row['valor']);
+                $valores .= (empty($this->sPreparado)) ? sprintf("'%s',", $row['valor']) : sprintf('%s,', $row['valor']);
             }
-
+            
             $colunas = rtrim($colunas, ',');
             $valores = rtrim($valores, ',');
 
