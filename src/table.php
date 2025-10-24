@@ -142,7 +142,7 @@ class table extends database
             foreach ($this->sCreateColumns as $value) {
                 $columns .= $value . ', ';
             }
-            $columns = rtrim($columns, ',');
+            $columns = rtrim($columns, ', ');
 
             $txt = sprintf('CREATE TABLE IF NOT EXISTS %s (%s) ENGINE=%s DEFAULT CHARSET=%s COLLATE=%s_general_ci;', $this->getTable(), $columns, $this->sEngine, $this->sCharset, $this->sCharset);
             mysqli_query($this->sConecta, $txt);
@@ -181,7 +181,8 @@ class table extends database
         }
     }
 
-    public function columnExists(string $column):bool {
+    public function columnExists(string $column): bool
+    {
         $txt = false;
         try {
             $sql = sprintf("SELECT COUNT(*) AS count1 FROM information_schema.columns WHERE table_name='%s' AND column_name='%s'", $this->getTable(), $column);
