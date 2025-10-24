@@ -19,15 +19,15 @@ class select extends database
         return $this;
     }
 
-    public function innerJoin(string $nome)
+    public function innerJoin(string $name)
     {
-        $this->sTabelas[] = ' INNER JOIN ' . $this->sPrefix . $nome;
+        $this->sTabelas[] = ' INNER JOIN ' . $this->sPrefix . $name;
         return $this;
     }
 
-    public function column(string $nome, string $apelido = '')
+    public function column(string $name, string $apelido = '')
     {
-        $this->sColunas[] = (empty($apelido)) ? $nome : sprintf('%s AS %s', $nome, $apelido);
+        $this->sColunas[] = (empty($apelido)) ? $name : sprintf('%s AS %s', $name, $apelido);
         return $this;
     }
 
@@ -41,7 +41,7 @@ class select extends database
         try {
             $txt = 'SELECT ';
             $txt .= ($this->sDesativarSQLCache) ? '' : 'SQL_CACHE ';
-            $txt .= (empty($this->getColunas())) ? '' : sprintf('%s ', $this->getColunas());
+            $txt .= (empty($this->getColunas())) ? '* ' : sprintf('%s ', $this->getColunas());
             $txt .= 'FROM ' . $this->getTable();
             $txt .= $this->getWhere();
             $txt .= $this->getOrderBy();
@@ -81,11 +81,13 @@ class select extends database
         return (empty($this->sPreparado)) ? mysqli_num_rows($this->sResult) : mysqli_num_rows($this->sQuery);
     }
 
-    public function getResult() {
+    public function getResult()
+    {
         $this->sQuery = mysqli_stmt_get_result($this->sResult);
     }
 
-    public function fetch():array|false|null {
+    public function fetch(): array|false|null
+    {
         if (empty($this->sPreparado)) {
             return mysqli_fetch_array($this->sResult, MYSQLI_ASSOC);
         } else {
@@ -93,11 +95,13 @@ class select extends database
         }
     }
 
-    public function rows(array $rows) {
+    public function rows(array $rows)
+    {
         $this->sRows = $rows;
     }
 
-    public function row(string $nome): mixed {
-        return empty($this->sRows[$nome]) ? '' : $this->sRows[$nome];
+    public function row(string $name): mixed
+    {
+        return empty($this->sRows[$name]) ? '' : $this->sRows[$name];
     }
 }
