@@ -1,6 +1,10 @@
 # MiPhantDB
 
-MiPhantDB é uma biblioteca para trabalhar com MariaDB de uma forma mais fácil
+MiPhantDB é uma biblioteca para trabalhar com MariaDB de uma forma mais fácil.
+
+## Instalação
+
+`composer require mugomes/miphantdb`
 
 ## Support
 
