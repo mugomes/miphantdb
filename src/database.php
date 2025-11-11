@@ -186,7 +186,7 @@ class database
         if ($this->sSandbox) {
             echo $message;
         } else {
-            file_put_contents(dirname(__FILE__, 2) . '/logs/miphantdb_log', $message, FILE_APPEND);
+            error_log($message);
         }
     }
 
