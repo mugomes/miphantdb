@@ -26,7 +26,7 @@ class insert extends database
             $valores = '';
 
             foreach ($this->sInsert as $row) {
-                $colunas .= $row['coluna'];
+                $colunas .= $row['coluna'] . ',';
                 $valores .= (empty($this->sPreparado)) ? sprintf("'%s',", $row['valor']) : sprintf('%s,', $row['valor']);
             }
             
