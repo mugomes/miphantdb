@@ -1,8 +1,8 @@
 {
     "name": "mugomes/miphantdb",
-    "version": "1.0.2",
+    "version": "2.0.0",
     "description": "Biblioteca para trabalhar com Banco de Dados MariaDB.",
-    "license": "MIT",
+    "license": "LGPL-2.1-only",
     "_comment": [
         "Copyright (C) 2025 Murilo Gomes Julio"
     ],
