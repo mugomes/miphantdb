@@ -1,8 +1,8 @@
 <?php
-// Copyright (C) 2025 Murilo Gomes Julio
-// SPDX-License-Identifier: LGPL-2.1-only
+// Copyright (C) 2025-2026 Murilo Gomes Julio
+// SPDX-License-Identifier: MIT
 
-// Site: https://www.mugomes.com.br
+// Site: https://mugomes.github.io
 
 namespace MiPhantDB;
 
