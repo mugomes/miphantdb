@@ -1,8 +1,8 @@
 <?php
-// Copyright (C) 2025 Murilo Gomes Julio
-// SPDX-License-Identifier: LGPL-2.1-only
+// Copyright (C) 2025-2026 Murilo Gomes Julio
+// SPDX-License-Identifier: MIT
 
-// Site: https://www.mugomes.com.br
+// Site: https://mugomes.github.io
 
 namespace MiPhantDB;
 
@@ -12,8 +12,6 @@ class database
     protected mixed $sResult;
     protected mixed $sQuery;
     protected string $sCharset = 'utf8mb4';
-
-    protected string $sPrefix = '';
 
     protected array $sPreparado = [];
     protected bool $sFechaResult = false;
@@ -33,7 +31,6 @@ class database
     {
         try {
             $this->sSandbox = $sandbox;
-            $this->sPrefix = $db['prefix'];
             $this->sConecta = mysqli_connect($db['server'], $db['username'], $db['password'], $db['database']);
             if (mysqli_connect_errno()) {
                 throw new \Exception(mysqli_connect_error());
@@ -44,14 +41,18 @@ class database
         }
     }
 
+    public function charset(string $value) {
+        $this->sCharset = $value;
+    }
+
     public function multiQuery(string $sql): bool
     {
         return mysqli_multi_query($this->sConecta, $sql);
     }
-
+    
     public function table(string $name)
     {
-        $this->sTabelas[] = $this->sPrefix . $name;
+        $this->sTabelas[] = $name;
         return $this;
     }
 
