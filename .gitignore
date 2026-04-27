@@ -1,8 +1,10 @@
-# folders
+# logs
 logs/
-vendor/
 
-# files
+# composer
+vendor/
 composer.lock
+
+# test
 index.php
 error.log
