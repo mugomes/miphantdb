@@ -33,7 +33,7 @@ composer require mugomes/miphantdb
 
 ### Manual
 
-Copie os arquivos da pasta `MiPhantDB` para o seu projeto e utilize o autoload ou `require`.
+Copie os arquivos da pasta `MiPhantDB` para o seu projeto e utilize o `include_once` para adicionar as classes como database, select, insert, update, delete, table.
 
 ---
 
@@ -239,6 +239,7 @@ $select->close();
 **Murilo Gomes Julio**
 
 🔗 [https://mugomes.github.io](https://mugomes.github.io)
+
 📺 [https://youtube.com/@mugomesoficial](https://youtube.com/@mugomesoficial)
 
 ---
@@ -252,8 +253,10 @@ $select->close();
 
 ## 📜 License
 
-Copyright (c) 2025-2026 Murilo Gomes Julio
+The MiPhantDB is provided under:
 
-Licensed under the [MIT](https://github.com/mugomes/miphantdb/blob/main/LICENSE).
+[SPDX-License-Identifier: LGPL-2.1-only](https://github.com/mugomes/miphantdb/blob/main/LICENSE)
+
+Beign under the terms of the GNU Lesser General Public License version 2.1 only.
 
 All contributions to the MiPhantDB are subject to this license.
