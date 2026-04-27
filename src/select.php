@@ -56,8 +56,7 @@ class select extends database
             $txt .= $this->getWhere();
             $txt .= $this->getOrderBy();
             $txt .= $this->getLimit();
-            echo $txt;
-            exit;
+
             if (empty($this->sPreparado)) {
                 if ($this->sResult = mysqli_query($this->sConecta, $txt)) {
                     $this->sFechaResult = true;
