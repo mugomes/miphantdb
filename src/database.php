@@ -71,6 +71,28 @@ class database
         return $this;
     }
 
+    public function whereColumn(string $column1, string $column2)
+    {
+        if (empty($this->sWhere)) {
+            if ($this->sDisablePrefix || empty($this->sPrefix)) {
+                $this->sWhere[] = $column1 . '=' . $column2;
+            } else {
+                $this->sWhere[] = $this->sPrefix . $column1 . '=' . $this->sPrefix . $column2;
+            }
+        } else {
+            if ($this->sDisablePrefix || empty($this->sPrefix)) {
+                $this->sWhere[] = $this->sAndOr . $column1 . '=' . $this->sPrefix . $column2;
+            } else {
+                $this->sWhere[] = $this->sAndOr . $this->sPrefix . $column1 . '=' . $this->sPrefix . $column2;
+            }
+        }
+
+        $this->sAndOr = ' AND ';
+        $this->sDisablePrefix = false;
+
+        return $this;
+    }
+
     public function where(string $name, string $value = '?')
     {
         $txtAspas = "'";
@@ -85,22 +107,23 @@ class database
         }
 
         if (empty($this->sWhere)) {
-            if ($this->sDisablePrefix) {
+            if ($this->sDisablePrefix || empty($this->sPrefix)) {
                 $this->sWhere[] = $name . $txtIgual . $txtAspas . $value . $txtAspas;
             } else {
-                if (empty($this->sPrefix)) {
-                    $this->sWhere[] = $name . $txtIgual . $txtAspas . $value . $txtAspas;
-                } else {
-                    $this->sWhere[] = $this->sPrefix . $name . $txtIgual . $txtAspas . $value . $txtAspas;
-                }
+                $this->sWhere[] = $this->sPrefix . $name . $txtIgual . $txtAspas . $value . $txtAspas;
             }
         } else {
-            $this->sWhere[] = $this->sAndOr . $name . $txtIgual . $txtAspas . $value . $txtAspas;
+            if ($this->sDisablePrefix || empty($this->sPrefix)) {
+                $this->sWhere[] = $this->sAndOr . $name . $txtIgual . $txtAspas . $value . $txtAspas;
+            } else {
+                $this->sWhere[] = $this->sAndOr . $this->sPrefix . $name . $txtIgual . $txtAspas . $value . $txtAspas;
+            }
         }
 
         $this->sAndOr = ' AND ';
         $this->sSemAspas = false;
         $this->sSemIgual = false;
+        $this->sDisablePrefix = false;
 
         return $this;
     }

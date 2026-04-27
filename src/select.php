@@ -21,13 +21,23 @@ class select extends database
 
     public function innerJoin(string $name)
     {
-        $this->sTabelas[] = ' INNER JOIN ' . $name;
+        if ($this->sDisablePrefix || empty($this->sPrefix)) {
+            $this->sTabelas[] = ' INNER JOIN ' . $name;
+        } else {
+            $this->sTabelas[] = ' INNER JOIN ' . $this->sPrefix . $name;
+        }
+        $this->sDisablePrefix = false;
         return $this;
     }
 
     public function column(string $name, string $apelido = '')
     {
-        $this->sColunas[] = (empty($apelido)) ? $name : sprintf('%s AS %s', $name, $apelido);
+        if ($this->sDisablePrefix || empty($this->sPrefix)) {
+            $this->sColunas[] = (empty($apelido)) ? $name : sprintf('%s AS %s', $name, $apelido);
+        } else {
+            $this->sColunas[] = (empty($apelido)) ? $this->sPrefix . $name : sprintf('%s AS %s', $this->sPrefix . $name, $apelido);
+        }
+        $this->sDisablePrefix = false;
         return $this;
     }
 
@@ -46,7 +56,8 @@ class select extends database
             $txt .= $this->getWhere();
             $txt .= $this->getOrderBy();
             $txt .= $this->getLimit();
-
+            echo $txt;
+            exit;
             if (empty($this->sPreparado)) {
                 if ($this->sResult = mysqli_query($this->sConecta, $txt)) {
                     $this->sFechaResult = true;
