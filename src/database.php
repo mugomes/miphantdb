@@ -1,6 +1,6 @@
 <?php
 // Copyright (C) 2025-2026 Murilo Gomes Julio
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: LGPL-2.1-only
 
 // Site: https://mugomes.github.io
 
@@ -16,6 +16,8 @@ class database
     protected array $sPreparado = [];
     protected bool $sFechaResult = false;
 
+    protected string $sPrefix = '';
+    protected bool $sDisablePrefix = false;
     protected array $sTabelas = [];
     protected array $sWhere = [];
     protected array $sOrderBy = [];
@@ -41,7 +43,8 @@ class database
         }
     }
 
-    public function charset(string $value) {
+    public function charset(string $value)
+    {
         $this->sCharset = $value;
     }
 
@@ -49,10 +52,22 @@ class database
     {
         return mysqli_multi_query($this->sConecta, $sql);
     }
-    
+
+    public function prefix(string $name)
+    {
+        $this->sPrefix = $name;
+        return $this;
+    }
+
+    public function disablePrefix()
+    {
+        $this->sDisablePrefix = true;
+        return $this;
+    }
+
     public function table(string $name)
     {
-        $this->sTabelas[] = $name;
+        $this->sTabelas[] = (empty($this->sPrefix)) ? $name : $this->sPrefix . $name;
         return $this;
     }
 
@@ -70,7 +85,15 @@ class database
         }
 
         if (empty($this->sWhere)) {
-            $this->sWhere[] = $name . $txtIgual . $txtAspas . $value . $txtAspas;
+            if ($this->sDisablePrefix) {
+                $this->sWhere[] = $name . $txtIgual . $txtAspas . $value . $txtAspas;
+            } else {
+                if (empty($this->sPrefix)) {
+                    $this->sWhere[] = $name . $txtIgual . $txtAspas . $value . $txtAspas;
+                } else {
+                    $this->sWhere[] = $this->sPrefix . $name . $txtIgual . $txtAspas . $value . $txtAspas;
+                }
+            }
         } else {
             $this->sWhere[] = $this->sAndOr . $name . $txtIgual . $txtAspas . $value . $txtAspas;
         }
