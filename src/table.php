@@ -1,6 +1,6 @@
 <?php
 // Copyright (C) 2025-2026 Murilo Gomes Julio
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: LGPL-2.1-only
 
 // Site: https://mugomes.github.io
 
@@ -14,18 +14,23 @@ class table extends database
 
     private bool $ctInt = false;
     private bool $ctLongText = false;
+    private bool $ctMediumText = false;
+    private bool $ctText = false;
     private bool $ctNull = false;
     private bool $ctAutoIncrement = false;
     private bool $ctPrimaryKey = false;
     private int $ctTamanho = 45;
     private int $ciTamanho = 11;
     private string $ctDefaultValue = '';
+    private bool $ctDefaultValueZero = false;
     private string $ctAfter = '';
 
     private function clean()
     {
         $this->ctInt = false;
         $this->ctLongText = false;
+        $this->ctMediumText = false;
+        $this->ctText = false;
         $this->ctNull = false;
         $this->ctAutoIncrement = false;
         $this->ctPrimaryKey = false;
@@ -34,6 +39,7 @@ class table extends database
         $this->ctDefaultValue = '';
         $this->ctAfter = '';
         $this->sEngine = 'MyISAM';
+        $this->ctDefaultValueZero = false;
     }
 
     public function cleanAll()
@@ -52,6 +58,18 @@ class table extends database
     public function longtext()
     {
         $this->ctLongText = true;
+        return $this;
+    }
+
+    public function mediumtext()
+    {
+        $this->ctMediumText = true;
+        return $this;
+    }
+
+    public function text()
+    {
+        $this->ctText = true;
         return $this;
     }
 
@@ -91,6 +109,12 @@ class table extends database
         return $this;
     }
 
+    public function defaultValueZero()
+    {
+        $this->ctDefaultValueZero = true;
+        return $this;
+    }
+
     public function after(string $value)
     {
         $this->ctAfter = $value;
@@ -108,12 +132,20 @@ class table extends database
         $sql = $name;
         if ($this->ctLongText) {
             $sql .= ' LONGTEXT';
+        } elseif ($this->ctMediumText) {
+            $sql .= ' MEDIUMTEXT';
+        } elseif ($this->ctText) {
+            $sql .= ' TEXT';
         } else {
             $sql .= ($this->ctInt) ? ' int(' . $this->ciTamanho . ')' : ' varchar(' . $this->ctTamanho . ')';
         }
 
         if (empty($this->ctDefaultValue)) {
-            $sql .= ($this->ctNull) ? ' DEFAULT NULL' : ' NOT NULL';
+            if ($this->ctDefaultValueZero) {
+                $sql .= ' DEFAULT 0 NOT NULL';
+            } else {
+                $sql .= ($this->ctNull) ? ' DEFAULT NULL' : ' NOT NULL';
+            }
         } else {
             $sql .= ' DEFAULT ' . $this->ctDefaultValue . ' NOT NULL';
         }
@@ -151,6 +183,8 @@ class table extends database
             $this->cleanAll();
         } catch (\mysqli_sql_exception $ex) {
             $this->log($ex->__toString());
+        } finally {
+            return $this;
         }
     }
 
