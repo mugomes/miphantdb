@@ -1,6 +1,6 @@
 {
     "name": "mugomes/miphantdb",
-    "version": "4.0.0",
+    "version": "4.0.1",
     "description": "Biblioteca para trabalhar com Banco de Dados MariaDB.",
     "license": "LGPL-2.1-only",
     "_comment": [
