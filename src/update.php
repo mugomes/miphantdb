@@ -1,6 +1,6 @@
 <?php
 // Copyright (C) 2025-2026 Murilo Gomes Julio
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: LGPL-2.1-only
 
 // Site: https://mugomes.github.io
 
@@ -50,8 +50,12 @@ class update extends database
             }
 
             $this->sFechaResult = false;
+            $this->sUpdate = [];
+            $this->sPreparado = [];
         } catch (\mysqli_sql_exception $ex) {
             $this->log($ex->__toString());
+        } finally {
+            return $this;
         }
     }
 }
