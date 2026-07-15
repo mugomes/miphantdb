@@ -1,8 +1,5 @@
 # MiPhantDB
 
-> [!NOTE]
-> This repository has been migrated to Codeberg, please see: https://codeberg.org/bluice/miphantdb
-
 **MiPhantDB** é uma biblioteca **leve, fluente e orientada a código escrita em PHP** para abstração de banco de dados **MySQL/MariaDB**, focada em **simplicidade**, **controle explícito das queries** e **baixo overhead**.
 
 Oferece uma **API encadeável (fluent interface)** para construção de SQL **legível**, **previsível** e **flexível**, mantendo o desenvolvedor no controle total da query final.
